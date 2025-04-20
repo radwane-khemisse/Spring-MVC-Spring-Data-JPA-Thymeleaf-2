@@ -110,6 +110,35 @@ spring.datasource.password=redone
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
 ```
+## added Pagination
+### 1. mise a jour de la classe web PatientController
+```java
+@AllArgsConstructor
+public class PatientController {
+    private PatientRepository patientRepository;
+    @GetMapping("/index")
+    public String index(Model model,
+                        @RequestParam(name="page",defaultValue = "0") int page,
+                        @RequestParam(name="size", defaultValue = "4") int size){
+        Page<Patient> pagePatients=patientRepository.findAll(PageRequest.of(page,size));
+        model.addAttribute("listePatients",pagePatients.getContent());
+        model.addAttribute("pages", new int[pagePatients.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        return "patients";
+    }
+}
+```
+### 2. mise a jour de la template patients.html
+```html
+<ul class="nav nav-pills">
+     <li th:each="page,status: ${pages}">
+     <a th:href="@{/index(page=${status.index})}" 
+     th:class="${currentPage==status.index} ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'"
+     th:text="${status.index+1}"></a>
+</ul>
+```
+![Voir l'image](/images/pagination.png)
+
 
 
 

@@ -32,9 +32,9 @@ public class HopitalApplication implements CommandLineRunner {
 				.malade(true)
 				.score(8)
 				.build();
-		patientRepository.save(patient1);
-		patientRepository.save(patient2);
-		patientRepository.save(patient3);
+//		patientRepository.save(patient1);
+//		patientRepository.save(patient2);
+//		patientRepository.save(patient3);
 
 
 	}
