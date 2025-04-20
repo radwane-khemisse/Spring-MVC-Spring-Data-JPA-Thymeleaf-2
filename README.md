@@ -175,6 +175,29 @@ public class PatientController {
 ```
 ![Voir l'image](/images/chercher.png)
 
+## Supprimer un patient a partir du template
+### 1. mise a jour de la classe web PatientController: ajout de la method delete
+```java
+@GetMapping("/delete")
+    public String delete(Long id,String keyword,int page)
+    {
+        patientRepository.deleteById(id);
+        return "redirect:/index?page"+page+"&keyword="+keyword;
+    }
+
+```
+### 2. mise a jour de la template patients.html
+```html
+ <td>
+      <a onclick="return confirm('etes vous sure?')"
+      th:href="@{delete(id=${p.id}, keyword=${keyword},page=${currentPage})}" class="btn btn-danger">Delete</a>
+ </td>
+
+```
+![Voir l'image](/images/delete1.png)
+la Supression du patent Ahmed: id=4
+![Voir l'image](/images/delete2.png)
+
 
 
 
