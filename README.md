@@ -199,5 +199,118 @@ la Supression du patent Ahmed: id=4
 ![Voir l'image](/images/delete2.png)
 
 
+## CReation de template 1
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="\webjars\bootstrap\5.3.5\css\bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.3.5/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+<!-- A grey horizontal navbar that becomes vertical on small screens -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
+    <div class="container-fluid">
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Patients</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/formPatients}">nouveau</a></li>
+                    <li><a class="dropdown-item" th:href="@{/index}">Chercher</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="navbar-nav ">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">[Username]</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/formPatients}">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
+</nav>
+<section layout:fragment="content1">
+
+</section>
+</body>
+</html>
+```
+## creation de formPatients.html pour inserer a pratir d'un formulaire
+```html 
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Patients</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3">
+        <form method="post" th:action="@{/save}">
+            <div >
+                <label for="nom">Nom</label>
+                <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}">
+                <span th:errors="${patient.nom}"></span>
+            </div>
+            <div>
+                <label>Date Naissance</label>
+                <input class="form-control" type="date" name="dateNaissance" th:checked="${patient.dateNaissance}">
+                <span th:errors="${patient.dateNaissance}"></span>
+            </div>
+            <div>
+                <label>Malade</label>
+                <input type="checkbox" name="malade" th:value="${patient.malade}">
+                <span th:errors="${patient.malade}"></span>
+            </div>
+            <div>
+                <label>Score</label>
+                <input class="form-control" type="text" name="score" th:value="${patient.score}">
+                <span th:errors="${patient.score}"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>
+```
+## mise a jour de PatientController, pour afficher le formulaire et inserer a partir d'une formulaire
+```java
+    @GetMapping("/formPatients")
+    public String formPatients(Model model){
+        model.addAttribute("patient", new Patient());
+        return "formPatients";
+    }
+
+    @PostMapping("/save")
+    public String save(Model model,Patient patient){
+        patientRepository.save(patient);
+        return "formPatients";
+    }
+```
+L'ajout du Navbar:
+![Voir l'image](/images/navbar.png)
+Voici le formulaire:
+![Voir l'image](/images/formPatient.png)
