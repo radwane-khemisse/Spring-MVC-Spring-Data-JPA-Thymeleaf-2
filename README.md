@@ -139,6 +139,42 @@ public class PatientController {
 ```
 ![Voir l'image](/images/pagination.png)
 
+## Chercher un patient
+### 1. mise a jour de la classe web PatientController
+```java
+public class PatientController {
+    private PatientRepository patientRepository;
+    @GetMapping("/index")
+    public String index(Model model,
+                        @RequestParam(name="page",defaultValue = "0") int page,
+                        @RequestParam(name="size", defaultValue = "4") int size,
+                        @RequestParam(name="keyword", defaultValue = "") String keyword){
+        Page<Patient> pagePatients=patientRepository.findByNomContains(keyword, PageRequest.of(page, size));
+        model.addAttribute("listePatients",pagePatients.getContent());
+        model.addAttribute("pages", new int[pagePatients.getTotalPages()]);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword", keyword);
+        return "patients";
+    }
+}
+```
+### 2. mise a jour de la template patients.html
+```html
+<form method="get" th:action="${index}">
+        <label>Keyword</label>
+        <input type="text" name="keyword" th:value="${keyword}"/>
+        <button type="submit" class="btn btn-info">Chercher</button>
+</form>
+
+<ul class="nav nav-pills">
+                <li th:each="page,status: ${pages}">
+                <a th:href="@{/index(page=${status.index},keyword=${keyword})}"
+                   th:class="${currentPage==status.index} ? 'btn btn-info ms-1' : 'btn btn-outline-info ms-1'"
+                   th:text="${status.index+1}"></a>
+</ul>
+```
+![Voir l'image](/images/chercher.png)
+
 
 
 
