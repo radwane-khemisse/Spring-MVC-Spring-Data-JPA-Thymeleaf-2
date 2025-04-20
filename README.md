@@ -93,5 +93,23 @@ patientRepository.save(patient3);
 ```
 ![Voir l'image](/images/listePatients.png)
 
+## Migrer vers MySQL
+### 1. Ajouter la dépendance MySQL dans le fichier pom.xml
+```xml
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+### 2. Configurer le fichier application.properties
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/patients-bd?createDatabaseIfNotExist=true
+spring.datasource.username=redone
+spring.datasource.password=redone
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+```
+
 
 
