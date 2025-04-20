@@ -48,5 +48,50 @@ patientRepository.save(patient1);
 patientRepository.save(patient2);
 patientRepository.save(patient3);
 ```
-![Voir l'image](\images\addPatients.png)
+![Voir l'image](/images/addPatients.png)
+
+## Ceation de la template patients.html
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<div class="p-3">
+    <div class="card">
+        <div class="card-header">Liste patients</div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Date de naissance</th>
+                    <th>Malade</th>
+                    <th>score</th>
+                </tr>
+                <tr th:each="p : ${listePatients}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.nom}"></td>
+                    <td th:text="${p.dateNaissance}"></td>
+                    <td th:text="${p.malade}"></td>
+                    <td th:text="${p.score}"></td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+```
+![Voir l'image](/images/listePatients.png)
+
+
 
