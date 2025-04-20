@@ -48,5 +48,5 @@ patientRepository.save(patient1);
 patientRepository.save(patient2);
 patientRepository.save(patient3);
 ```
-![Voir l'image](\images\addPatients.png)
+![Voir l'image](/images/addPatients.png)
 
